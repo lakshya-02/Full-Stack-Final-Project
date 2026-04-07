@@ -1,0 +1,36 @@
+
+> helpdesk-backend@1.0.0 dev
+> nodemon src/server.js
+
+[33m[nodemon] 3.1.14[39m
+[33m[nodemon] to restart at any time, enter `rs`[39m
+[33m[nodemon] watching path(s): *.*[39m
+[33m[nodemon] watching extensions: js,mjs,cjs,json[39m
+[32m[nodemon] starting `node src/server.js`[39m
+MongoDB connected
+Server running on port 5000
+[0mGET /api/health [32m200[0m 2.317 ms - 31[0m
+[0mPOST /api/auth/signup [32m201[0m 134.258 ms - 352[0m
+[0mPOST /api/auth/login [32m200[0m 55.539 ms - 340[0m
+[0mPOST /api/tickets [32m201[0m 52.756 ms - 423[0m
+[0mPOST /api/auth/signup [32m201[0m 70.502 ms - 342[0m
+[0mGET /api/auth/me [32m200[0m 4.424 ms - 201[0m
+[0mGET /api/tickets [32m200[0m 7.505 ms - 14[0m
+[0mGET /api/tickets [36m304[0m 3.889 ms - -[0m
+[0mGET /api/auth/me [32m200[0m 2.398 ms - 198[0m
+[0mGET /api/auth/me [36m304[0m 1.399 ms - -[0m
+[0mGET /api/tickets [32m200[0m 4.961 ms - 435[0m
+[0mGET /api/tickets [36m304[0m 4.247 ms - -[0m
+[0mPUT /api/tickets/69d0312143aed0524f4cf90c [32m200[0m 6.756 ms - 476[0m
+[0mGET /api/tickets [32m200[0m 3.936 ms - 439[0m
+[0mGET /api/auth/me [36m304[0m 1.849 ms - -[0m
+[0mGET /api/auth/me [36m304[0m 1.617 ms - -[0m
+[0mGET /api/tickets [36m304[0m 4.436 ms - -[0m
+[0mGET /api/tickets [36m304[0m 3.893 ms - -[0m
+[0mPUT /api/tickets/69d0312143aed0524f4cf90c [32m200[0m 5.384 ms - 479[0m
+[0mGET /api/tickets [32m200[0m 6.280 ms - 442[0m
+[31m[nodemon] app crashed - waiting for file changes before starting...[39m
+[32m[nodemon] restarting child process[39m
+[32m[nodemon] starting `node src/server.js`[39m
+MongoDB connected
+Server running on port 5000
