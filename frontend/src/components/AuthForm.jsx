@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 import { useAuth } from "../context/AuthContext";
 import { apiRequest } from "../services/api";
+import { getHomeRoute } from "../utils/navigation";
 
 const initialState = {
   name: "",
@@ -39,7 +40,7 @@ export const AuthForm = ({ mode }) => {
       });
 
       login({ token: data.token, user: data.user });
-      navigate("/dashboard");
+      navigate(getHomeRoute(data.user), { replace: true });
     } catch (submitError) {
       setError(submitError.message);
     } finally {
@@ -56,6 +57,11 @@ export const AuthForm = ({ mode }) => {
           Employees can raise tickets in seconds, while admins can prioritize,
           manage, and resolve requests from one place.
         </p>
+        <div className="hero-points">
+          <span>JWT-based login</span>
+          <span>MongoDB-backed tickets</span>
+          <span>Admin and employee workflows</span>
+        </div>
       </div>
 
       <form className="card auth-card" onSubmit={handleSubmit}>

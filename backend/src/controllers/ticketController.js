@@ -2,9 +2,22 @@ import mongoose from "mongoose";
 
 import { Ticket } from "../models/Ticket.js";
 
+const escapeRegex = (value = "") => value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+const sendValidationError = (res, error, fallbackMessage) => {
+  if (error.name === "ValidationError") {
+    const firstError = Object.values(error.errors)[0];
+    return res.status(400).json({ message: firstError?.message || fallbackMessage });
+  }
+
+  return res.status(500).json({ message: fallbackMessage });
+};
+
 const buildTicketQuery = (req) => {
   const query = {};
   const { status, priority, category, search } = req.query;
+  const normalizedCategory = category?.trim();
+  const normalizedSearch = search?.trim();
 
   if (req.user.role !== "admin") {
     query.createdBy = req.user._id;
@@ -18,14 +31,15 @@ const buildTicketQuery = (req) => {
     query.priority = priority;
   }
 
-  if (category) {
-    query.category = { $regex: category, $options: "i" };
+  if (normalizedCategory) {
+    query.category = { $regex: escapeRegex(normalizedCategory), $options: "i" };
   }
 
-  if (search) {
+  if (normalizedSearch) {
+    const safeSearch = escapeRegex(normalizedSearch);
     query.$or = [
-      { title: { $regex: search, $options: "i" } },
-      { description: { $regex: search, $options: "i" } },
+      { title: { $regex: safeSearch, $options: "i" } },
+      { description: { $regex: safeSearch, $options: "i" } },
     ];
   }
 
@@ -43,15 +57,18 @@ const canAccessTicket = (ticket, user) =>
 export const createTicket = async (req, res) => {
   try {
     const { title, description, category, priority } = req.body;
+    const normalizedTitle = title?.trim();
+    const normalizedDescription = description?.trim();
+    const normalizedCategory = category?.trim();
 
-    if (!title || !description || !category || !priority) {
+    if (!normalizedTitle || !normalizedDescription || !normalizedCategory || !priority) {
       return res.status(400).json({ message: "All ticket fields are required" });
     }
 
     const ticket = await Ticket.create({
-      title,
-      description,
-      category,
+      title: normalizedTitle,
+      description: normalizedDescription,
+      category: normalizedCategory,
       priority,
       createdBy: req.user._id,
     });
@@ -63,7 +80,7 @@ export const createTicket = async (req, res) => {
       ticket: populatedTicket,
     });
   } catch (error) {
-    return res.status(500).json({ message: "Failed to create ticket" });
+    return sendValidationError(res, error, "Failed to create ticket");
   }
 };
 
@@ -128,7 +145,9 @@ export const updateTicket = async (req, res) => {
 
     allowedFields.forEach((field) => {
       if (req.body[field] !== undefined) {
-        ticket[field] = req.body[field];
+        const value =
+          typeof req.body[field] === "string" ? req.body[field].trim() : req.body[field];
+        ticket[field] = value;
       }
     });
 
@@ -140,7 +159,7 @@ export const updateTicket = async (req, res) => {
       ticket,
     });
   } catch (error) {
-    return res.status(500).json({ message: "Failed to update ticket" });
+    return sendValidationError(res, error, "Failed to update ticket");
   }
 };
 

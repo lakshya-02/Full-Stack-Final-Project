@@ -1,6 +1,7 @@
 import { Link, NavLink, useNavigate } from "react-router-dom";
 
 import { useAuth } from "../context/AuthContext";
+import { getHomeRoute } from "../utils/navigation";
 
 export const Layout = ({ children }) => {
   const { user, logout } = useAuth();
@@ -14,7 +15,7 @@ export const Layout = ({ children }) => {
   return (
     <div className="app-shell">
       <header className="topbar">
-        <Link className="brand" to="/">
+        <Link className="brand" to={user ? getHomeRoute(user) : "/"}>
           Corporate Helpdesk
         </Link>
         <nav className="nav-links">

@@ -1,19 +1,21 @@
 :root {
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Trebuchet MS", "Avenir Next", "Segoe UI", sans-serif;
   color: #16202a;
   background:
-    radial-gradient(circle at top left, rgba(233, 239, 255, 0.9), transparent 35%),
-    linear-gradient(180deg, #f5f8fc 0%, #eef3f8 100%);
+    radial-gradient(circle at top left, rgba(255, 223, 186, 0.45), transparent 32%),
+    radial-gradient(circle at top right, rgba(209, 232, 255, 0.52), transparent 28%),
+    linear-gradient(180deg, #f8f6ef 0%, #eef3f8 100%);
   line-height: 1.5;
   font-weight: 400;
   color-scheme: light;
   --bg: #eef3f8;
-  --panel: rgba(255, 255, 255, 0.88);
+  --panel: rgba(255, 255, 255, 0.9);
   --text: #16202a;
   --muted: #607080;
   --border: rgba(22, 32, 42, 0.08);
-  --primary: #005f73;
-  --primary-dark: #0a3d4a;
+  --primary: #145b73;
+  --primary-dark: #123847;
+  --accent: #d97d54;
   --danger: #c44536;
   --shadow: 0 20px 60px rgba(31, 50, 81, 0.12);
 }
@@ -28,6 +30,10 @@ body {
   min-height: 100vh;
   background: var(--bg);
   color: var(--text);
+}
+
+#root {
+  min-height: 100vh;
 }
 
 a {
@@ -61,7 +67,7 @@ select {
   gap: 1rem;
   padding: 1rem 1.5rem;
   backdrop-filter: blur(18px);
-  background: rgba(238, 243, 248, 0.78);
+  background: rgba(248, 246, 239, 0.8);
   border-bottom: 1px solid var(--border);
 }
 
@@ -115,6 +121,19 @@ select {
 
 .landing-card {
   padding: 3rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.landing-card::after {
+  content: "";
+  position: absolute;
+  inset: auto -5rem -5rem auto;
+  width: 12rem;
+  height: 12rem;
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(217, 125, 84, 0.22), transparent 70%);
+  pointer-events: none;
 }
 
 .landing-card h1,
@@ -136,6 +155,46 @@ select {
   display: flex;
   gap: 1rem;
   margin-top: 1.5rem;
+}
+
+.landing-highlights,
+.hero-points {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.landing-highlights {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.landing-highlights div {
+  display: grid;
+  gap: 0.35rem;
+  padding: 1rem;
+  border-radius: 18px;
+  background: rgba(20, 91, 115, 0.05);
+  border: 1px solid rgba(20, 91, 115, 0.08);
+}
+
+.landing-highlights strong {
+  font-size: 0.98rem;
+}
+
+.landing-highlights span,
+.hero-points span {
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.hero-points span {
+  padding: 0.5rem 0.8rem;
+  border-radius: 999px;
+  background: rgba(20, 91, 115, 0.08);
+  border: 1px solid rgba(20, 91, 115, 0.08);
 }
 
 .eyebrow {
@@ -199,6 +258,7 @@ textarea:focus {
 .primary-button {
   background: linear-gradient(135deg, var(--primary), var(--primary-dark));
   color: white;
+  box-shadow: 0 10px 24px rgba(18, 56, 71, 0.18);
 }
 
 .ghost-button {
@@ -235,6 +295,31 @@ textarea:focus {
 .dashboard-grid {
   display: grid;
   gap: 1.25rem;
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.dashboard-header-note {
+  min-width: 220px;
+  padding: 1rem 1.1rem;
+  border-radius: 18px;
+  background: linear-gradient(135deg, rgba(20, 91, 115, 0.08), rgba(217, 125, 84, 0.12));
+  border: 1px solid rgba(20, 91, 115, 0.08);
+}
+
+.dashboard-header-note span {
+  display: block;
+  color: var(--muted);
+  margin-bottom: 0.35rem;
+}
+
+.dashboard-header-note strong {
+  font-size: 1.1rem;
 }
 
 .stats-grid,
@@ -311,6 +396,12 @@ textarea:focus {
 .ticket-card {
   display: grid;
   gap: 1rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.ticket-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 22px 48px rgba(18, 56, 71, 0.14);
 }
 
 .ticket-header,
@@ -328,6 +419,13 @@ textarea:focus {
 .ticket-header p {
   margin: 0;
   color: var(--muted);
+}
+
+.ticket-badges {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.5rem;
 }
 
 .ticket-meta {
@@ -362,6 +460,21 @@ textarea:focus {
   color: var(--danger);
 }
 
+.badge-status-open {
+  background: rgba(20, 91, 115, 0.12);
+  color: var(--primary);
+}
+
+.badge-status-in-progress {
+  background: rgba(217, 125, 84, 0.16);
+  color: #a85733;
+}
+
+.badge-status-resolved {
+  background: rgba(27, 127, 91, 0.12);
+  color: #1b7f5b;
+}
+
 .empty-state {
   text-align: center;
 }
@@ -369,6 +482,7 @@ textarea:focus {
 @media (max-width: 900px) {
   .landing-card,
   .auth-panel,
+  .landing-highlights,
   .stats-grid,
   .form-grid,
   .filter-grid {
@@ -377,6 +491,7 @@ textarea:focus {
 
   .ticket-header,
   .ticket-actions,
+  .dashboard-header,
   .detail-header,
   .detail-grid {
     flex-direction: column;

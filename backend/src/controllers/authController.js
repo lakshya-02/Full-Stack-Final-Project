@@ -1,6 +1,8 @@
 import { User } from "../models/User.js";
 import { generateToken } from "../utils/generateToken.js";
 
+const normalizeEmail = (email = "") => email.trim().toLowerCase();
+
 const sanitizeUser = (user) => ({
   id: user._id,
   name: user.name,
@@ -11,18 +13,20 @@ const sanitizeUser = (user) => ({
 export const signup = async (req, res) => {
   try {
     const { name, email, password } = req.body;
+    const trimmedName = name?.trim();
+    const normalizedEmail = normalizeEmail(email);
 
-    if (!name || !email || !password) {
+    if (!trimmedName || !normalizedEmail || !password) {
       return res.status(400).json({ message: "All fields are required" });
     }
 
-    const existingUser = await User.findOne({ email });
+    const existingUser = await User.findOne({ email: normalizedEmail });
 
     if (existingUser) {
       return res.status(409).json({ message: "Email already registered" });
     }
 
-    const user = await User.create({ name, email, password });
+    const user = await User.create({ name: trimmedName, email: normalizedEmail, password });
 
     return res.status(201).json({
       message: "Account created successfully",
@@ -30,6 +34,15 @@ export const signup = async (req, res) => {
       user: sanitizeUser(user),
     });
   } catch (error) {
+    if (error.code === 11000) {
+      return res.status(409).json({ message: "Email already registered" });
+    }
+
+    if (error.name === "ValidationError") {
+      const firstError = Object.values(error.errors)[0];
+      return res.status(400).json({ message: firstError?.message || "Invalid signup data" });
+    }
+
     return res.status(500).json({ message: "Failed to create account" });
   }
 };
@@ -37,12 +50,13 @@ export const signup = async (req, res) => {
 export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
+    const normalizedEmail = normalizeEmail(email);
 
-    if (!email || !password) {
+    if (!normalizedEmail || !password) {
       return res.status(400).json({ message: "Email and password are required" });
     }
 
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email: normalizedEmail });
 
     if (!user || !(await user.comparePassword(password))) {
       return res.status(401).json({ message: "Invalid email or password" });

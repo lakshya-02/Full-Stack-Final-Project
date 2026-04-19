@@ -1,6 +1,13 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
+const formatDate = (value) =>
+  new Intl.DateTimeFormat("en-IN", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  }).format(new Date(value));
+
 export const TicketList = ({ tickets, isAdmin, onDelete, onStatusChange }) => {
   const [processingId, setProcessingId] = useState("");
 
@@ -34,15 +41,21 @@ export const TicketList = ({ tickets, isAdmin, onDelete, onStatusChange }) => {
               <h3>{ticket.title}</h3>
               <p>{ticket.description}</p>
             </div>
-            <span className={`badge badge-${ticket.priority.toLowerCase()}`}>
-              {ticket.priority}
-            </span>
+            <div className="ticket-badges">
+              <span className={`badge badge-status badge-status-${ticket.status.toLowerCase().replace(/\s+/g, "-")}`}>
+                {ticket.status}
+              </span>
+              <span className={`badge badge-${ticket.priority.toLowerCase()}`}>
+                {ticket.priority}
+              </span>
+            </div>
           </div>
 
           <div className="ticket-meta">
             <span>Status: {ticket.status}</span>
             <span>Category: {ticket.category}</span>
             <span>Raised by: {ticket.createdBy?.name || "Unknown"}</span>
+            <span>Created: {formatDate(ticket.createdAt)}</span>
           </div>
 
           <div className="ticket-actions">

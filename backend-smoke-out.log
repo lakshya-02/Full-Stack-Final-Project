@@ -1,0 +1,15 @@
+
+> helpdesk-backend@1.0.0 start
+> node server.js
+
+MongoDB connected
+Server running on port 5000
+[0mGET /api/health [32m200[0m 1.303 ms - 31[0m
+[0mPOST /api/auth/signup [32m201[0m 100.537 ms - 351[0m
+[0mPOST /api/auth/login [32m200[0m 55.284 ms - 339[0m
+[0mPOST /api/tickets [32m201[0m 24.559 ms - 436[0m
+[0mGET /api/tickets [32m200[0m 12.408 ms - 399[0m
+[0mGET /api/tickets?search=%5B [32m200[0m 4.570 ms - 14[0m
+[0mGET /api/tickets/69e13b3faeaf7fc2c2470bf3 [32m200[0m 3.259 ms - 396[0m
+[0mPUT /api/tickets/69e13b3faeaf7fc2c2470bf3 [32m200[0m 8.827 ms - 457[0m
+[0mDELETE /api/tickets/69e13b3faeaf7fc2c2470bf3 [32m200[0m 4.479 ms - 41[0m

@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { Navigate } from "react-router-dom";
 
 import { Layout } from "../components/Layout";
 import { TicketFilters } from "../components/TicketFilters";
@@ -40,8 +41,12 @@ export const DashboardPage = ({ adminView = false }) => {
   };
 
   useEffect(() => {
+    if (user?.role === "admin" && !adminView) {
+      return;
+    }
+
     fetchTickets(filters);
-  }, []);
+  }, [adminView, user?.role]);
 
   const stats = useMemo(
     () =>
@@ -118,6 +123,10 @@ export const DashboardPage = ({ adminView = false }) => {
     }
   };
 
+  if (user?.role === "admin" && !adminView) {
+    return <Navigate replace to="/admin" />;
+  }
+
   return (
     <Layout>
       <section className="dashboard-grid">
@@ -130,6 +139,10 @@ export const DashboardPage = ({ adminView = false }) => {
                 ? "Manage organization-wide tickets, assign priority, and update statuses."
                 : "Create tickets, monitor progress, and stay informed on issue resolution."}
             </p>
+          </div>
+          <div className="dashboard-header-note">
+            <span>{adminView ? "Full queue visibility" : "Your ticket workspace"}</span>
+            <strong>{tickets.length} visible ticket{tickets.length === 1 ? "" : "s"}</strong>
           </div>
         </div>
 

@@ -30,6 +30,8 @@ export const TicketDetailsPage = () => {
   const fetchTicket = async () => {
     setLoading(true);
     setError("");
+    setSuccess("");
+    setTicket(null);
 
     try {
       const data = await apiRequest(`/tickets/${id}`, {}, token);
@@ -42,6 +44,7 @@ export const TicketDetailsPage = () => {
         status: data.ticket.status,
       });
     } catch (fetchError) {
+      setTicket(null);
       setError(fetchError.message);
     } finally {
       setLoading(false);
