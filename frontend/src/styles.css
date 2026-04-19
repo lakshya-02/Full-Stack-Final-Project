@@ -1,5 +1,5 @@
 :root {
-  font-family: "Trebuchet MS", "Avenir Next", "Segoe UI", sans-serif;
+  font-family: "Aptos", "Segoe UI Variable Text", "Trebuchet MS", sans-serif;
   color: #16202a;
   background:
     radial-gradient(circle at top left, rgba(255, 223, 186, 0.45), transparent 32%),
@@ -8,6 +8,8 @@
   line-height: 1.5;
   font-weight: 400;
   color-scheme: light;
+  --font-body: "Aptos", "Segoe UI Variable Text", "Trebuchet MS", sans-serif;
+  --font-display: "Bahnschrift", "Aptos Display", "Trebuchet MS", sans-serif;
   --bg: #eef3f8;
   --panel: rgba(255, 255, 255, 0.9);
   --text: #16202a;
@@ -24,12 +26,22 @@
   box-sizing: border-box;
 }
 
+html {
+  font-size: 16px;
+}
+
 body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
   background: var(--bg);
   color: var(--text);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.65;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 #root {
@@ -65,16 +77,17 @@ select {
   justify-content: space-between;
   align-items: center;
   gap: 1rem;
-  padding: 1rem 1.5rem;
+  padding: 1rem 1.6rem;
   backdrop-filter: blur(18px);
   background: rgba(248, 246, 239, 0.8);
   border-bottom: 1px solid var(--border);
 }
 
 .brand {
-  font-size: 1.05rem;
+  font-family: var(--font-display);
+  font-size: 1.22rem;
   font-weight: 700;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.03em;
 }
 
 .nav-links {
@@ -85,6 +98,8 @@ select {
 
 .nav-links a {
   color: var(--muted);
+  font-size: 0.96rem;
+  font-weight: 600;
 }
 
 .nav-links a.active {
@@ -95,7 +110,7 @@ select {
 .page {
   width: min(1180px, calc(100% - 2rem));
   margin: 0 auto;
-  padding: 2rem 0 3rem;
+  padding: 2.35rem 0 3.25rem;
 }
 
 .landing,
@@ -139,9 +154,12 @@ select {
 .landing-card h1,
 .hero-copy h1,
 .dashboard-header h1 {
-  font-size: clamp(2.1rem, 4vw, 3.6rem);
-  line-height: 1.05;
-  margin: 0.4rem 0 1rem;
+  font-family: var(--font-display);
+  font-size: clamp(2.35rem, 4vw, 3.85rem);
+  font-weight: 700;
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+  margin: 0.45rem 0 1rem;
 }
 
 .landing-card p,
@@ -149,6 +167,7 @@ select {
 .dashboard-header p {
   color: var(--muted);
   max-width: 60ch;
+  font-size: 1.04rem;
 }
 
 .landing-actions {
@@ -199,15 +218,15 @@ select {
 
 .eyebrow {
   display: inline-block;
-  font-size: 0.82rem;
+  font-size: 0.78rem;
   text-transform: uppercase;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.18em;
   color: var(--primary);
   font-weight: 700;
 }
 
 .card {
-  padding: 1.5rem;
+  padding: 1.65rem;
 }
 
 .auth-card {
@@ -218,12 +237,31 @@ select {
 .auth-card h2,
 .section-heading h2 {
   margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.48rem;
+  letter-spacing: -0.02em;
+}
+
+.ticket-header h3,
+.detail-grid h2 {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+}
+
+.ticket-header h3 {
+  font-size: 1.18rem;
+}
+
+.detail-grid h2 {
+  font-size: 1.3rem;
+  margin: 0;
 }
 
 label {
   display: grid;
   gap: 0.45rem;
-  font-size: 0.95rem;
+  font-size: 0.93rem;
+  font-weight: 600;
   color: var(--muted);
 }
 
@@ -234,8 +272,10 @@ textarea {
   border: 1px solid rgba(96, 112, 128, 0.2);
   background: rgba(255, 255, 255, 0.95);
   border-radius: 14px;
-  padding: 0.9rem 1rem;
+  padding: 0.95rem 1rem;
   color: var(--text);
+  font-size: 0.98rem;
+  line-height: 1.5;
 }
 
 input:focus,
@@ -252,6 +292,8 @@ textarea:focus {
   border: none;
   padding: 0.85rem 1.2rem;
   font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: 0.01em;
   transition: transform 0.2s ease, opacity 0.2s ease, background 0.2s ease;
 }
 
@@ -282,6 +324,10 @@ textarea:focus {
 .form-error,
 .form-success {
   margin: 0;
+}
+
+.switch-link {
+  font-size: 0.95rem;
 }
 
 .form-error {
@@ -316,10 +362,12 @@ textarea:focus {
   display: block;
   color: var(--muted);
   margin-bottom: 0.35rem;
+  font-size: 0.9rem;
 }
 
 .dashboard-header-note strong {
-  font-size: 1.1rem;
+  font-family: var(--font-display);
+  font-size: 1.18rem;
 }
 
 .stats-grid,
@@ -340,8 +388,10 @@ textarea:focus {
 
 .stat-card strong {
   display: block;
-  font-size: 2rem;
+  font-family: var(--font-display);
+  font-size: 2.2rem;
   margin-bottom: 0.35rem;
+  letter-spacing: -0.03em;
 }
 
 .stat-card span,
@@ -349,6 +399,7 @@ textarea:focus {
 .ticket-meta,
 .empty-state p {
   color: var(--muted);
+  font-size: 0.95rem;
 }
 
 .section-heading {
@@ -381,6 +432,7 @@ textarea:focus {
   margin: 0.5rem 0 0;
   color: var(--muted);
   max-width: 70ch;
+  font-size: 1rem;
 }
 
 .detail-meta {
@@ -419,6 +471,7 @@ textarea:focus {
 .ticket-header p {
   margin: 0;
   color: var(--muted);
+  font-size: 0.97rem;
 }
 
 .ticket-badges {
@@ -441,8 +494,9 @@ textarea:focus {
   align-self: flex-start;
   padding: 0.35rem 0.75rem;
   border-radius: 999px;
-  font-size: 0.82rem;
+  font-size: 0.8rem;
   font-weight: 700;
+  letter-spacing: 0.02em;
 }
 
 .badge-low {
@@ -500,6 +554,10 @@ textarea:focus {
 }
 
 @media (max-width: 600px) {
+  html {
+    font-size: 15px;
+  }
+
   .topbar,
   .nav-links {
     flex-direction: column;
