@@ -9,18 +9,26 @@ const emptyTicket = {
 
 export const TicketForm = ({ onSubmit, submitting }) => {
   const [formData, setFormData] = useState(emptyTicket);
+  const [attachmentFile, setAttachmentFile] = useState(null);
+  const [fileInputKey, setFileInputKey] = useState(0);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormData((current) => ({ ...current, [name]: value }));
   };
 
+  const handleFileChange = (event) => {
+    setAttachmentFile(event.target.files?.[0] || null);
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const created = await onSubmit(formData);
+    const created = await onSubmit({ ...formData, attachmentFile });
 
     if (created) {
       setFormData(emptyTicket);
+      setAttachmentFile(null);
+      setFileInputKey((current) => current + 1);
     }
   };
 
@@ -75,6 +83,17 @@ export const TicketForm = ({ onSubmit, submitting }) => {
           </select>
         </label>
       </div>
+      <label>
+        Attachment
+        <input
+          accept=".pdf,.txt,.doc,.docx,.jpg,.jpeg,.png,.webp"
+          className="file-input"
+          key={fileInputKey}
+          onChange={handleFileChange}
+          type="file"
+        />
+        <span className="field-hint">Optional. Upload PDF, DOC, DOCX, TXT, JPG, PNG, or WEBP up to 5 MB.</span>
+      </label>
       <button className="primary-button" disabled={submitting} type="submit">
         {submitting ? "Creating..." : "Submit Ticket"}
       </button>

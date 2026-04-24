@@ -1,4 +1,5 @@
 import { User } from "../models/User.js";
+import { sendWelcomeEmail } from "../utils/emailService.js";
 import { generateToken } from "../utils/generateToken.js";
 
 const normalizeEmail = (email = "") => email.trim().toLowerCase();
@@ -27,6 +28,7 @@ export const signup = async (req, res) => {
     }
 
     const user = await User.create({ name: trimmedName, email: normalizedEmail, password });
+    void sendWelcomeEmail(user);
 
     return res.status(201).json({
       message: "Account created successfully",

@@ -32,6 +32,27 @@ const ticketSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
+    attachment: {
+      originalName: {
+        type: String,
+        trim: true,
+      },
+      filename: {
+        type: String,
+        trim: true,
+      },
+      mimetype: {
+        type: String,
+        trim: true,
+      },
+      size: {
+        type: Number,
+      },
+      url: {
+        type: String,
+        trim: true,
+      },
+    },
   },
   {
     timestamps: true,

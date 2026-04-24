@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
+import { getAssetUrl } from "../services/api";
+
 const formatDate = (value) =>
   new Intl.DateTimeFormat("en-IN", {
     day: "numeric",
@@ -56,6 +58,11 @@ export const TicketList = ({ tickets, isAdmin, onDelete, onStatusChange }) => {
             <span>Category: {ticket.category}</span>
             <span>Raised by: {ticket.createdBy?.name || "Unknown"}</span>
             <span>Created: {formatDate(ticket.createdAt)}</span>
+            {ticket.attachment?.url && (
+              <a href={getAssetUrl(ticket.attachment.url)} rel="noreferrer" target="_blank">
+                Attachment: {ticket.attachment.originalName}
+              </a>
+            )}
           </div>
 
           <div className="ticket-actions">

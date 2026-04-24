@@ -2,6 +2,7 @@ import dotenv from "dotenv";
 
 import app from "./app.js";
 import { connectDatabase } from "./config/db.js";
+import { verifyEmailTransport } from "./utils/emailService.js";
 
 dotenv.config();
 
@@ -20,6 +21,7 @@ const startServer = async () => {
   try {
     validateEnvironment();
     await connectDatabase();
+    await verifyEmailTransport();
     app.listen(port, () => {
       console.log(`Server running on port ${port}`);
     });

@@ -7,6 +7,7 @@ import { TicketForm } from "../components/TicketForm";
 import { TicketList } from "../components/TicketList";
 import { useAuth } from "../context/AuthContext";
 import { apiRequest } from "../services/api";
+import { buildTicketFormData } from "../utils/ticketFormData";
 
 const initialFilters = {
   search: "",
@@ -84,7 +85,9 @@ export const DashboardPage = ({ adminView = false }) => {
         "/tickets",
         {
           method: "POST",
-          body: JSON.stringify(ticketData),
+          body: buildTicketFormData(ticketData, {
+            attachmentFile: ticketData.attachmentFile,
+          }),
         },
         token
       );

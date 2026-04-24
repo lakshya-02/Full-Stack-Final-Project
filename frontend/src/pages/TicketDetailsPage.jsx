@@ -3,7 +3,8 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 
 import { Layout } from "../components/Layout";
 import { useAuth } from "../context/AuthContext";
-import { apiRequest } from "../services/api";
+import { apiRequest, getAssetUrl } from "../services/api";
+import { buildTicketFormData } from "../utils/ticketFormData";
 
 const emptyForm = {
   title: "",
@@ -24,6 +25,9 @@ export const TicketDetailsPage = () => {
   const [deleting, setDeleting] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [attachmentFile, setAttachmentFile] = useState(null);
+  const [removeAttachment, setRemoveAttachment] = useState(false);
+  const [fileInputKey, setFileInputKey] = useState(0);
 
   const canEditStatus = user?.role === "admin";
 
@@ -43,6 +47,9 @@ export const TicketDetailsPage = () => {
         priority: data.ticket.priority,
         status: data.ticket.status,
       });
+      setAttachmentFile(null);
+      setRemoveAttachment(false);
+      setFileInputKey((current) => current + 1);
     } catch (fetchError) {
       setTicket(null);
       setError(fetchError.message);
@@ -60,6 +67,13 @@ export const TicketDetailsPage = () => {
     setFormData((current) => ({ ...current, [name]: value }));
   };
 
+  const handleFileChange = (event) => {
+    setAttachmentFile(event.target.files?.[0] || null);
+    if (event.target.files?.[0]) {
+      setRemoveAttachment(false);
+    }
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     setSaving(true);
@@ -72,7 +86,10 @@ export const TicketDetailsPage = () => {
         `/tickets/${id}`,
         {
           method: "PUT",
-          body: JSON.stringify(payload),
+          body: buildTicketFormData(payload, {
+            attachmentFile,
+            removeAttachment,
+          }),
         },
         token
       );
@@ -85,6 +102,9 @@ export const TicketDetailsPage = () => {
         priority: data.ticket.priority,
         status: data.ticket.status,
       });
+      setAttachmentFile(null);
+      setRemoveAttachment(false);
+      setFileInputKey((current) => current + 1);
       setSuccess("Ticket updated successfully.");
     } catch (submitError) {
       setError(submitError.message);
@@ -130,6 +150,16 @@ export const TicketDetailsPage = () => {
               <div>
                 <h2>Current details</h2>
                 <p className="detail-copy">{ticket.description}</p>
+                {ticket.attachment?.url ? (
+                  <div className="attachment-panel">
+                    <span className="attachment-label">Current attachment</span>
+                    <a href={getAssetUrl(ticket.attachment.url)} rel="noreferrer" target="_blank">
+                      {ticket.attachment.originalName}
+                    </a>
+                  </div>
+                ) : (
+                  <p className="field-hint">No file attached to this ticket yet.</p>
+                )}
               </div>
               <div className="ticket-meta detail-meta">
                 <span>Status: {ticket.status}</span>
@@ -193,6 +223,29 @@ export const TicketDetailsPage = () => {
                   </select>
                 </label>
               </div>
+
+              <label>
+                Replace attachment
+                <input
+                  accept=".pdf,.txt,.doc,.docx,.jpg,.jpeg,.png,.webp"
+                  className="file-input"
+                  key={fileInputKey}
+                  onChange={handleFileChange}
+                  type="file"
+                />
+                <span className="field-hint">Uploading a new file will replace the old attachment.</span>
+              </label>
+
+              {ticket?.attachment?.url && (
+                <label className="checkbox-row">
+                  <input
+                    checked={removeAttachment}
+                    onChange={(event) => setRemoveAttachment(event.target.checked)}
+                    type="checkbox"
+                  />
+                  <span>Remove current attachment</span>
+                </label>
+              )}
 
               {canEditStatus && (
                 <label>

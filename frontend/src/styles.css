@@ -1,5 +1,7 @@
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Sora:wght@600;700&display=swap");
+
 :root {
-  font-family: "Aptos", "Segoe UI Variable Text", "Trebuchet MS", sans-serif;
+  font-family: "Manrope", "Segoe UI Variable Text", "Trebuchet MS", sans-serif;
   color: #16202a;
   background:
     radial-gradient(circle at top left, rgba(255, 223, 186, 0.45), transparent 32%),
@@ -8,8 +10,8 @@
   line-height: 1.5;
   font-weight: 400;
   color-scheme: light;
-  --font-body: "Aptos", "Segoe UI Variable Text", "Trebuchet MS", sans-serif;
-  --font-display: "Bahnschrift", "Aptos Display", "Trebuchet MS", sans-serif;
+  --font-body: "Manrope", "Segoe UI Variable Text", "Trebuchet MS", sans-serif;
+  --font-display: "Sora", "Bahnschrift", "Trebuchet MS", sans-serif;
   --bg: #eef3f8;
   --panel: rgba(255, 255, 255, 0.9);
   --text: #16202a;
@@ -278,6 +280,17 @@ textarea {
   line-height: 1.5;
 }
 
+.file-input {
+  padding: 0.8rem 0.9rem;
+  background: rgba(20, 91, 115, 0.04);
+}
+
+.field-hint {
+  color: var(--muted);
+  font-size: 0.86rem;
+  font-weight: 500;
+}
+
 input:focus,
 select:focus,
 textarea:focus {
@@ -435,6 +448,29 @@ textarea:focus {
   font-size: 1rem;
 }
 
+.attachment-panel {
+  display: grid;
+  gap: 0.3rem;
+  margin-top: 1rem;
+  padding: 0.95rem 1rem;
+  border-radius: 16px;
+  background: rgba(20, 91, 115, 0.05);
+  border: 1px solid rgba(20, 91, 115, 0.08);
+}
+
+.attachment-panel a,
+.ticket-meta a {
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.attachment-label {
+  color: var(--muted);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
 .detail-meta {
   min-width: 260px;
 }
@@ -488,6 +524,17 @@ textarea:focus {
 
 .ticket-actions {
   align-items: center;
+}
+
+.checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  color: var(--text);
+}
+
+.checkbox-row input {
+  width: auto;
 }
 
 .badge {

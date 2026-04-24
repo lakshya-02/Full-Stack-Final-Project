@@ -19,6 +19,8 @@ Note: the backend now requires a real MongoDB connection. There is no in-memory 
 - JWT-protected backend routes
 - Employee and admin role support
 - Create, edit, view, and delete tickets
+- Optional file attachments for tickets
+- Email notifications for welcome, ticket creation, and ticket status updates
 - Admin status management for all tickets
 - Search and filter by status, priority, category, and text
 - Dashboard stats and ticket detail page
@@ -30,6 +32,7 @@ Note: the backend now requires a real MongoDB connection. There is no in-memory 
 .
 |-- backend
 |   |-- .env.example
+|   |-- uploads
 |   |-- server.js
 |   `-- src
 |       |-- app.js
@@ -74,6 +77,13 @@ PORT=5000
 MONGODB_URI=mongodb://127.0.0.1:27017/helpdesk
 JWT_SECRET=replace_with_a_secure_secret
 CLIENT_URL=http://localhost:5173
+SUPPORT_EMAIL=support@company.com
+EMAIL_HOST=smtp.example.com
+EMAIL_PORT=587
+EMAIL_SECURE=false
+EMAIL_USER=your_email_username
+EMAIL_PASS=your_email_password
+EMAIL_FROM=Corporate Helpdesk <no-reply@company.com>
 ```
 
 3. Optional frontend environment file in `frontend/.env`:
@@ -132,6 +142,14 @@ npm run preview
 - The backend will stop with an error if `MONGODB_URI` or `JWT_SECRET` is missing.
 - Default local database name used in the examples: `helpdesk`
 
+## Attachment and Email Notes
+
+- Ticket attachments are stored locally in `backend/uploads`.
+- Allowed attachment formats: `PDF`, `TXT`, `DOC`, `DOCX`, `JPG`, `PNG`, `WEBP`
+- Maximum attachment size: `5 MB`
+- Email notifications are optional and only send if the SMTP variables are configured.
+- If email settings are missing, the app will continue working and simply skip sending notifications.
+
 ## Check MongoDB Data
 
 Use `mongosh` to inspect the project data:
@@ -177,6 +195,8 @@ PUT    /api/tickets/:id
 DELETE /api/tickets/:id
 GET    /api/health
 ```
+
+The ticket create and update routes also support multipart form data for optional file uploads using the `attachment` field.
 
 ## Verification
 
